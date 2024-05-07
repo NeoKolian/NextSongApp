@@ -9,30 +9,34 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var isPlaying = false
-    let combinedTransition = AnyTransition
-        .slide
-        .combined(with: .opacity)
-    
+
     var body: some View {
         Button {
-            withAnimation(.easeOut) {
+            isPlaying.toggle()
+            withAnimation(.easeInOut(duration: 0.3)) {
                 isPlaying.toggle()
             }
         } label: {
-            if isPlaying {
-                Image(systemName: "forward.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 64, height: 64)
-                    .transition(combinedTransition)
-            } else {
-                Image(systemName: "forward.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 64, height: 64)
+            ZStack {
+                HStack(spacing: 6) {
+                    if isPlaying {
+                        Image(systemName: "play.fill")
+                            .font(.largeTitle)
+                            .frame(width: 18)
+                            .scaleEffect(isPlaying ? 1 : 0)
+                    }
+                    Image (systemName: "play.fill")
+                        .font(.largeTitle)
+                        .frame(width: 18)
+                    if !isPlaying {
+                        Image(systemName: "play.fill")
+                            .font(.largeTitle)
+                            .frame(width: 18)
+                            .scaleEffect(isPlaying ? 0 : 1)
+                    }
+                }
             }
         }
-        .padding()
     }
 }
 
