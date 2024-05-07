@@ -8,31 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var isPlaying = false
+    @State private var isPlaying: Bool = true
+    let combinedTransition = AnyTransition(.scale(0).combined(with: .opacity))
 
     var body: some View {
         Button {
-            withAnimation(.smooth) {
+            isPlaying.toggle()
+            withAnimation(.bouncy(duration: 0.6)) {
                 isPlaying.toggle()
             }
         } label: {
-            ZStack {
-                HStack(spacing: 6) {
-                    if isPlaying {
-                        Image(systemName: "play.fill")
-                            .font(.largeTitle)
-                            .frame(width: 18)
-                            .scaleEffect(isPlaying ? 1 : 0)
-                    }
+            HStack(spacing: 4) {
+                if isPlaying {
                     Image (systemName: "play.fill")
                         .font(.largeTitle)
-                        .frame(width: 18)
-                    if !isPlaying {
-                        Image(systemName: "play.fill")
-                            .font(.largeTitle)
-                            .frame(width: 18)
-                            .scaleEffect(isPlaying ? 0 : 1)
-                    }
+                        .frame(width: 20)
+                        .transition(combinedTransition)
+                }
+                Image (systemName: "play.fill")
+                    .font(.largeTitle)
+                    .frame(width: 20)
+                if !isPlaying {
+                    Image (systemName: "play.fill")
+                        .font(.largeTitle)
+                        .frame(width: 20)
                 }
             }
         }
