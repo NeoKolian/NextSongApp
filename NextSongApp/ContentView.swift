@@ -13,9 +13,10 @@ struct ContentView: View {
 
     var body: some View {
         Button {
-            isPlaying.toggle()
-            withAnimation(.bouncy(duration: 0.6)) {
-                isPlaying.toggle()
+            withAnimation(.bouncy) {
+                isPlaying = true
+            } completion: {
+                isPlaying = false
             }
         } label: {
             HStack(spacing: 4) {
