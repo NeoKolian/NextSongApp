@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var isPlaying: Bool = true
+    @State private var isPlaying: Bool = false
     let combinedTransition = AnyTransition(.scale(0).combined(with: .opacity))
 
     var body: some View {
         Button {
-            withAnimation(.bouncy) {
-                isPlaying = true
-            } completion: {
-                isPlaying = false
+            withAnimation(.smooth) {
+                withAnimation(.bouncy) {
+                    isPlaying = true
+                } completion: {
+                    isPlaying = false
+                }
             }
         } label: {
             HStack(spacing: 4) {
