@@ -12,8 +12,7 @@ struct ContentView: View {
 
     var body: some View {
         Button {
-            isPlaying.toggle()
-            withAnimation(.easeInOut(duration: 0.3)) {
+            withAnimation(.smooth) {
                 isPlaying.toggle()
             }
         } label: {
