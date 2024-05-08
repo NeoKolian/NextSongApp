@@ -8,36 +8,45 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var isPlaying: Bool = false
-    let combinedTransition = AnyTransition(.scale(0).combined(with: .opacity))
-
+    @State private var performAnimation: Bool = false
+    
     var body: some View {
         Button {
-            withAnimation(.smooth) {
-                withAnimation(.bouncy) {
-                    isPlaying = true
+            if !performAnimation {
+                withAnimation(.interpolatingSpring(stiffness: 170, damping: 15)) {
+                    performAnimation = true
                 } completion: {
-                    isPlaying = false
+                    performAnimation = false
                 }
             }
         } label: {
-            HStack(spacing: 4) {
-                if isPlaying {
-                    Image (systemName: "play.fill")
-                        .font(.largeTitle)
-                        .frame(width: 20)
-                        .transition(combinedTransition)
+            GeometryReader { proxy in
+                let width = proxy.size.width / 2
+                let systemName = "play.fill"
+                
+                HStack(alignment: .center, spacing: 0) {
+                    Image(systemName: systemName)
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: performAnimation ? width : 0)
+                        .opacity(performAnimation ? 1 : 0)
+                    Image(systemName: systemName)
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: width)
+                    Image(systemName: systemName)
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: performAnimation ? 0.5 : width)
+                        .opacity(performAnimation ? 0 : 1)
                 }
-                Image (systemName: "play.fill")
-                    .font(.largeTitle)
-                    .frame(width: 20)
-                if !isPlaying {
-                    Image (systemName: "play.fill")
-                        .font(.largeTitle)
-                        .frame(width: 20)
-                }
+                .frame(maxHeight: .infinity, alignment: .center)
             }
         }
+        .frame(maxWidth: 64)
     }
 }
 
